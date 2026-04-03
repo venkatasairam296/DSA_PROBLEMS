@@ -1,30 +1,41 @@
 /*
 Problem: Two Sum II - Input Array Is Sorted
 
-Brief idea:
-Given a sorted array, find two numbers whose sum equals the target.
-Because the array is already sorted, we can use two pointers instead of
-checking every pair.
+Brief problem:
+Given a sorted array and a target, return the 1-based indices of two
+numbers such that they add up to target. Exactly one valid pair exists.
 
-Logic:
-1. Start one pointer at the beginning and the other at the end.
-2. Compute the sum of the two pointed values.
-3. If the sum matches the target, return the 1-based indices.
-4. If the sum is smaller than the target, move the left pointer right
-   to increase the sum.
-5. If the sum is larger than the target, move the right pointer left
-   to decrease the sum.
+Approach 1 (Brute Force):
+- Try every pair (i, j) with i < j and check if numbers[i] + numbers[j] == target.
+- First matching pair is the answer.
+- Time: O(n^2)
+- Space: O(1)
 
-Why this works:
-The array is sorted, so moving the left pointer right increases the sum
-and moving the right pointer left decreases the sum. This lets us search
-efficiently in linear time.
+Approach 2 (Better - Binary Search for each index):
+- For each index i, compute need = target - numbers[i].
+- Use binary search in the right part [i + 1, n - 1] to find need.
+- Since array is sorted, binary search is valid.
+- Time: O(n log n)
+- Space: O(1)
 
-Time complexity: O(n)
-Space complexity: O(1)
+Approach 3 (Optimal - Two Pointers):
+- Keep left at start and right at end.
+- sum = numbers[left] + numbers[right]
+- If sum == target, return {left + 1, right + 1}.
+- If sum < target, move left++ to increase sum.
+- If sum > target, move right-- to decrease sum.
+
+Why optimal works:
+Because the array is sorted, pointer movement is meaningful:
+moving left rightward increases the left value, and moving right leftward
+decreases the right value. So each move removes impossible pairs.
+
+Optimal complexity:
+- Time: O(n)
+- Space: O(1)
 */
 
-#include <vector>
+#include<vector>
 using namespace std;
 
 class Solution {
